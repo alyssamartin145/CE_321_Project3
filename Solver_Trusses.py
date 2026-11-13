@@ -38,7 +38,7 @@ def PostprocessReactions(K, d, F, n_unknowns, nodes):
 def ComputeMemberForces(bars):
     for bar in bars:
         E = bar.E
-        A =bar.A
+        A = bar.A
         L = bar.Length()
         lam_x, lam_y = bar.LambdaTerms()
 
@@ -74,12 +74,11 @@ def ComputeBucklingLoad(bars):
     for bar in bars:
         E = bar.E
         I = bar.GetWeakSecondMoment()
-        L_ft =bar.length()
-        L_in = L_ft*12
+        L =bar.Length() *12
         K = 1
         
-        if E > 0 and I > 0 and L_in > 0:
-            P_cr = (math.pi**2 * E * I) / ((K * L_in)**2)
+        if E > 0 and I > 0 and L > 0:
+            P_cr = (np.pi**2 * E * I) / ((K * L)**2)
             bar.buckling_load = P_cr
     # Compute critical buckling load for all bars
     pass
