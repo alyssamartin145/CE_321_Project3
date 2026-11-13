@@ -46,14 +46,15 @@ def PlaneTrussStiffness( input_geometry):
     # Compute the unknown reactions
     F = PostprocessReactions(K, d, F, n_unknowns, nodes)
 
+   
     # Compute internal member loads
-    # ComputeMemberForces()
+    bars = ComputeMemberForces(bars)
     
     # Compute normal stresses of members
-    # ComputeNormalStresses()
+    bars = ComputeNormalStresses(bars)
     
     # Compute the critical buckling load of the members
-    # ComputeBucklingLoad()    
+    bars = ComputeBucklingLoad(bars)    
     
     # output data for sanity check
     for node in nodes:
@@ -62,10 +63,10 @@ def PlaneTrussStiffness( input_geometry):
         bar.Print()
     
     # Uncomment these for plotting
-    # Plotting_Trusses.PlotStructureData(nodes, bars, "index")
-    # Plotting_Trusses.PlotStructureData(nodes, bars, "axial")
-    # Plotting_Trusses.PlotStructureData(nodes, bars, "stress")
-    # Plotting_Trusses.PlotStructureData(nodes, bars, "disp_in")
+    Plotting_Trusses.PlotStructureData(nodes, bars, "index")
+    Plotting_Trusses.PlotStructureData(nodes, bars, "axial")
+    Plotting_Trusses.PlotStructureData(nodes, bars, "stress")
+    #Plotting_Trusses.PlotStructureData(nodes, bars, "disp_in")
     # Plotting_Trusses.PlotStructureData(nodes, bars, "buckling")
     
     return [nodes,bars]
@@ -75,4 +76,4 @@ def PlaneTrussStiffness( input_geometry):
 # Example_3_3.csv is textbook Example 3.3, which you can run right away to see
 # output from the code.
 # Modify the name of the file to operate on your truss of interest
-[nodes,bars]=PlaneTrussStiffness('Example_3_3.csv')
+[nodes,bars]=PlaneTrussStiffness('Optimized_Original_Structure_F26.csv')

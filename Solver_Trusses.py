@@ -57,7 +57,7 @@ def ComputeMemberForces(bars):
         bar.axial_load = q_F
     # COMPLETE THIS FUNCTION
     # Compute member forces for all bars using equation 14-23 
-    pass
+    return bars
     
 # compute the normal stresses
 def ComputeNormalStresses(bars):
@@ -66,7 +66,7 @@ def ComputeNormalStresses(bars):
         if not np.isnan(bar.axial_load):
             bar.normal_stress = bar.axial_load / bar.A
     # Compute normal stress for all bars
-    pass
+    return bars
 
 # compute the critical buckling load of a member
 def ComputeBucklingLoad(bars):
@@ -81,4 +81,4 @@ def ComputeBucklingLoad(bars):
             P_cr = (np.pi**2 * E * I) / ((K * L)**2)
             bar.buckling_load = P_cr
     # Compute critical buckling load for all bars
-    pass
+    return bars
