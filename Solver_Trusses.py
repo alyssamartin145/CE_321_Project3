@@ -36,6 +36,25 @@ def PostprocessReactions(K, d, F, n_unknowns, nodes):
 
 # determine internal member loads
 def ComputeMemberForces(bars):
+    for bar in bars:
+        E = bar.E
+        A =bar.A
+        L = bar.Length()
+        lam_x, lam_y = bar.LambdaTerms()
+
+        
+        near_node = bar.init_node
+        far_node = bar.end_node
+        
+        d_nx = near_node.xdisp
+        d_ny = near_node.ydisp
+        d_fx = far_node.xdisp
+        d_fy = far_node.ydisp
+        
+        array_1 = np.array([-lam_x, -lam_y, lam_x, lam_y])
+        array_2 = np.array([d_nx, d_ny, d_fx, d_fy])
+        q_F = (A * E/L) * array_1 @ array_2
+        bar.axial_load = q_F
     # COMPLETE THIS FUNCTION
     # Compute member forces for all bars using equation 14-23 
     pass
@@ -43,11 +62,24 @@ def ComputeMemberForces(bars):
 # compute the normal stresses
 def ComputeNormalStresses(bars):
     # COMPLETE THIS FUNCTION
+    for bar in bars:
+        if not np.isnan(bar.axial_load):
+            bar.normal_stress = bar.axial_load / bar.A
     # Compute normal stress for all bars
     pass
 
 # compute the critical buckling load of a member
 def ComputeBucklingLoad(bars):
     # COMPLETE THIS FUNCTION
+    for bar in bars:
+        E = bar.E
+        I = bar.GetWeakSecondMoment()
+        L_ft =bar.length()
+        L_in = L_ft*12
+        K = 1
+        
+        if E > 0 and I > 0 and L_in > 0:
+            P_cr = (math.pi**2 * E * I) / ((K * L_in)**2)
+            bar.buckling_load = P_cr
     # Compute critical buckling load for all bars
     pass
